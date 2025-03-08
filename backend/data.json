@@ -392,5 +392,54 @@
                 "Critical risk indicators"
             ]
         }
+    },
+    {
+        "input": {
+            "user_id": "6973c2b2-4d39-402c-851a-16e19e3b78b2",
+            "mood": 2,
+            "anxiety": "moderate",
+            "sleep_quality": 2,
+            "energy_levels": 5,
+            "physical_symptoms": "moderate",
+            "concentration": 2,
+            "self_care": "moderate",
+            "social_interactions": 2,
+            "intrusive_thoughts": "moderate",
+            "optimism": 2,
+            "stress_factors": "hi",
+            "coping_strategies": "hi",
+            "social_support": 2,
+            "self_harm": "active",
+            "discuss_professional": "hi"
+        },
+        "output": {
+            "summary": {
+                "emotions_count": {
+                    "sad": 1,
+                    "discouraged": 1,
+                    "anxious": 2,
+                    "stressed": 1,
+                    "worried": 1
+                },
+                "average_confidence": 0.7,
+                "average_valence": 0.2,
+                "crisis_count": 5,
+                "risk_factors": [
+                    "Poor sleep quality",
+                    "Significant physical symptoms",
+                    "Poor concentration",
+                    "Social withdrawal",
+                    "Persistent intrusive thoughts",
+                    "Low optimism",
+                    "Limited social support",
+                    "Self-harm risk"
+                ]
+            },
+            "disorder_indicators": [
+                "Moderate anxiety-depression indicators",
+                "Anxiety disorder indicators",
+                "Critical risk indicators"
+            ]
+        }
     }
 ]

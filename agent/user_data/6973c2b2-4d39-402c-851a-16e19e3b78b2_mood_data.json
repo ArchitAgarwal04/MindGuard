@@ -1,0 +1,27 @@
+{
+  "user_id": "6973c2b2-4d39-402c-851a-16e19e3b78b2",
+  "entries": [
+    {
+      "timestamp": "2025-03-08T21:32:38.914341",
+      "date": "2025-03-08",
+      "time": "21:32",
+      "mood": "neutral",
+      "valence": 0.0,
+      "intensity": 0.1,
+      "context": "how can i improve my sleep quality?",
+      "triggers": []
+    },
+    {
+      "timestamp": "2025-03-08T21:33:00.960023",
+      "date": "2025-03-08",
+      "time": "21:33",
+      "mood": "neutral",
+      "valence": 0.0,
+      "intensity": 0.1,
+      "context": "yoga asan",
+      "triggers": []
+    }
+  ],
+  "insights": [],
+  "last_report_date": null
+}
