@@ -210,6 +210,16 @@
       "intensity": 0.6890352129936218,
       "context": "i feel really down today, nothing seems to make sense and give me answer in a short paragraph, if this prompt is not related to mental health, so please don't give me answer to the asked question and give response as please ask the question related to mental health",
       "triggers": []
+    },
+    {
+      "timestamp": "2025-04-22T13:57:07.008291",
+      "date": "2025-04-22",
+      "time": "13:57",
+      "mood": "neutral",
+      "valence": 0.0,
+      "intensity": 0.0,
+      "context": "how do i recognize signs of burnout? and give me answer in a short paragraph, if this prompt is not related to mental health, so please don't give me answer to the asked question and give response as please ask the question related to mental health",
+      "triggers": []
     }
   ],
   "insights": [],

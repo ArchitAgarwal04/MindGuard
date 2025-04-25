@@ -75,6 +75,38 @@ const userSchema = new mongoose.Schema({
     type: Boolean,
     default: false
   },
+  subscription: {
+    plan: {
+      type: String,
+      enum: ['free', 'patient', 'professional'],
+      default: 'free'
+    },
+    status: {
+      type: String,
+      enum: ['active', 'canceled', 'past_due', 'inactive'],
+      default: 'inactive'
+    },
+    startDate: {
+      type: Date
+    },
+    endDate: {
+      type: Date
+    },
+    renewalDate: {
+      type: Date
+    },
+    billingCycle: {
+      type: String,
+      enum: ['monthly', 'yearly'],
+      default: 'monthly'
+    },
+    paymentMethod: {
+      type: String
+    },
+    transactionIds: [{
+      type: String
+    }]
+  },
   bookings: [bookingSchema]
 });
 

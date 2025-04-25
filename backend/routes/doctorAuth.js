@@ -6,6 +6,7 @@ const path = require('path');
 const Doctor = require('../models/Doctor');
 const auth = require('../middleware/auth');
 const doctorAuth = require('../middleware/doctorAuth');
+const bcrypt = require('bcryptjs');
 
 // Configure multer for file uploads
 const storage = multer.diskStorage({
@@ -123,8 +124,28 @@ router.post('/login', async (req, res) => {
       return res.status(400).json({ msg: 'Invalid credentials' });
     }
 
-    // Check password
-    const isMatch = await doctor.comparePassword(password);
+    // Check if password is already in bcrypt format
+    const isHashed = doctor.password.startsWith('$2a$') || doctor.password.startsWith('$2b$');
+    
+    // If not hashed (legacy case), compare directly
+    let isMatch = false;
+    
+    if (isHashed) {
+      // Verify password using bcrypt
+      isMatch = await bcrypt.compare(password, doctor.password);
+    } else {
+      // Legacy case - direct comparison (not secure!)
+      isMatch = (password === doctor.password);
+      
+      // If match, upgrade to hashed password for future
+      if (isMatch) {
+        const salt = await bcrypt.genSalt(10);
+        doctor.password = await bcrypt.hash(password, salt);
+        await doctor.save();
+        console.log(`Upgraded password hash for doctor: ${doctor.email}`);
+      }
+    }
+
     if (!isMatch) {
       return res.status(400).json({ msg: 'Invalid credentials' });
     }

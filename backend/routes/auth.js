@@ -69,8 +69,28 @@ router.post('/login', async (req, res) => {
       return res.status(400).json({ msg: 'User not found' });
     }
 
-    // Verify password
-    const isMatch = await bcrypt.compare(password, user.password);
+    // Check if password is already in bcrypt format
+    const isHashed = user.password.startsWith('$2a$') || user.password.startsWith('$2b$');
+    
+    // If not hashed (legacy case), compare directly
+    let isMatch = false;
+    
+    if (isHashed) {
+      // Verify password using bcrypt
+      isMatch = await bcrypt.compare(password, user.password);
+    } else {
+      // Legacy case - direct comparison (not secure!)
+      isMatch = (password === user.password);
+      
+      // If match, upgrade to hashed password for future
+      if (isMatch) {
+        const salt = await bcrypt.genSalt(10);
+        user.password = await bcrypt.hash(password, salt);
+        await user.save();
+        console.log(`Upgraded password hash for user: ${user.email}`);
+      }
+    }
+
     if (!isMatch) {
       return res.status(400).json({ msg: 'Invalid password' });
     }

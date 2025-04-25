@@ -132,4 +132,76 @@ router.get('/registrations', auth, async (req, res) => {
   }
 });
 
+// Add or update user subscription
+router.post('/subscription', auth, async (req, res) => {
+  try {
+    const { userId, subscription } = req.body;
+    
+    // Validate request data
+    if (!subscription || !subscription.plan || !subscription.status) {
+      return res.status(400).json({ error: 'Invalid subscription data' });
+    }
+
+    // Ensure the user making the request is either the user being updated or an admin
+    if (req.user.id !== userId && !req.user.isAdmin) {
+      return res.status(403).json({ error: 'Unauthorized to update this user\'s subscription' });
+    }
+
+    // Find and update the user's subscription
+    const user = await User.findById(userId);
+    if (!user) {
+      return res.status(404).json({ error: 'User not found' });
+    }
+
+    // Update subscription details
+    user.subscription = {
+      ...user.subscription,
+      ...subscription
+    };
+
+    // Save the updated user
+    await user.save();
+
+    // Return the updated subscription
+    res.json({ 
+      success: true, 
+      message: 'Subscription updated successfully',
+      subscription: user.subscription
+    });
+  } catch (err) {
+    console.error('Error updating subscription:', err);
+    res.status(500).json({ error: 'Server Error', details: err.message });
+  }
+});
+
+// Get user subscription
+router.get('/subscription', auth, async (req, res) => {
+  try {
+    const userId = req.query.userId || req.user.id;
+
+    // Ensure the user making the request is either the user whose subscription is being retrieved or an admin
+    if (req.user.id !== userId && !req.user.isAdmin) {
+      return res.status(403).json({ error: 'Unauthorized to view this user\'s subscription' });
+    }
+
+    // Find the user
+    const user = await User.findById(userId).select('subscription');
+    if (!user) {
+      return res.status(404).json({ error: 'User not found' });
+    }
+
+    // Return the subscription
+    res.json({ 
+      success: true,
+      subscription: user.subscription || {
+        plan: 'free',
+        status: 'inactive'
+      }
+    });
+  } catch (err) {
+    console.error('Error fetching subscription:', err);
+    res.status(500).json({ error: 'Server Error', details: err.message });
+  }
+});
+
 module.exports = router;

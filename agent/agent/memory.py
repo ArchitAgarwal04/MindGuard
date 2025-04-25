@@ -3,9 +3,7 @@ from typing import List, Dict, Any, Optional
 from langchain_community.vectorstores import FAISS
 from langchain.memory import ConversationBufferMemory
 from langchain_core.embeddings import Embeddings
-
 from agent.llm_factory import LLMFactory
-
 
 class MemoryManager:
     def __init__(self, provider: Optional[str] = None):
